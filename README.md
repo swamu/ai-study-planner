@@ -24,6 +24,8 @@ A flexible, week-based React application for learning GenAI, Agentic AI, System 
   - Job Search
 
 ### 🔧 Advanced Functionality
+- 🚀 **Guest Mode**: Use instantly without login
+- 🔐 **Optional Authentication**: Sign up for cloud sync
 - ✅ **Task-Level Tracking**: Check off individual tasks
 - 📝 **Notes**: Add notes to any task
 - 🔍 **Filtering & Search**: Filter by month, category, status
@@ -32,7 +34,7 @@ A flexible, week-based React application for learning GenAI, Agentic AI, System 
 - 🎨 **Category Badges**: Color-coded (GenAI, Agentic AI, HLD, DSA)
 - 🏆 **Difficulty Indicators**: Easy, Moderate, Hard
 - 📱 **Responsive Design**: Works on all devices
-- ☁️ **Cloud Sync**: Optional Supabase integration
+- ☁️ **Cloud Sync**: Multi-device support (when logged in)
 - 📡 **Offline Support**: Works offline with localStorage
 
 ## Getting Started
@@ -126,26 +128,42 @@ npm run build
 **Resume & Portfolio**: Polish everything  
 **Applications**: Job search & networking  
 
-## 💾 Data Storage
+## 💾 Data Storage & Authentication
 
-### Local Storage
-- Instant saves to browser
-- Works offline
-- Device-specific
+### 🚀 Guest Mode (Default - No Login)
+- Click "Continue as Guest" on first visit
+- Data saves to browser's local storage
+- Works instantly - no email or password
+- 100% local - no data sent anywhere
+- Perfect for trying out the app
+- ⚠️ Data stays on ONE device only
 
-### Cloud Sync (Optional)
-- Supabase integration
-- Multi-device sync
-- Accessible anywhere
-- See `DEPLOYMENT.md` for setup
+### ☁️ Authenticated Mode (Optional - With Login)
+- Click "Sign In for Cloud Sync"
+- Create account with email/password
+- Data syncs to Supabase cloud database
+- Access from ANY device
+- Multi-device support
+- Data backed up in the cloud
+- See `SECURE_DATABASE_SETUP.md` for setup
+
+**Best of both worlds**: Start as guest, sign up later to sync your progress!
 
 ## 🚀 Deployment
 
-Ready to deploy? See **[DEPLOYMENT.md](DEPLOYMENT.md)** for:
-- Netlify deployment guide
-- Supabase setup (optional cloud sync)
-- Environment variables
-- Free hosting options
+### Quick Deploy (Guest Mode Only)
+Deploy to Vercel/Netlify - works immediately! Users can:
+- Use app without login
+- All data stored locally
+- No backend needed
+
+### Full Deploy (Guest + Cloud Sync)
+Ready for cloud sync? See guides:
+- **[OPTIONAL_AUTH_GUIDE.md](OPTIONAL_AUTH_GUIDE.md)** - How optional auth works
+- **[SECURE_DATABASE_SETUP.md](SECURE_DATABASE_SETUP.md)** - Supabase setup
+- **[VERCEL_DEPLOY.md](VERCEL_DEPLOY.md)** - Vercel deployment
+
+**Note**: App works perfectly without Supabase! Cloud sync is optional.
 
 ## 📁 Project Structure
 
@@ -161,6 +179,7 @@ src/
 │   ├── Navigation.js           # Glassmorphic navigation
 │   └── SyncStatus.js          # Cloud sync indicator
 ├── pages/
+│   ├── Login.js               # Login/signup (optional)
 │   ├── Dashboard.js           # Main dashboard
 │   ├── MonthView.js           # Month details
 │   ├── WeekView.js            # Week tasks
@@ -168,6 +187,7 @@ src/
 │   ├── TaskDatabase.js        # Excel-like view
 │   └── FinalPrep.js           # Portfolio & interview prep
 ├── context/
+│   ├── AuthContext.js         # Authentication (guest/logged in)
 │   └── TaskDatabaseContext.js # Global state management
 ├── data/
 │   └── fullScheduleData.js    # Study plan data
@@ -245,5 +265,10 @@ src/
 
 **Start your AI engineering journey today - at your own pace!** 🚀
 
-For deployment instructions, see **[DEPLOYMENT.md](DEPLOYMENT.md)**  
-For design system docs, see **[DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)**
+### 📖 Documentation
+
+- **[OPTIONAL_AUTH_GUIDE.md](OPTIONAL_AUTH_GUIDE.md)** - How optional authentication works
+- **[SECURE_DATABASE_SETUP.md](SECURE_DATABASE_SETUP.md)** - Step-by-step Supabase setup
+- **[VERCEL_DEPLOY.md](VERCEL_DEPLOY.md)** - Deploying to Vercel
+
+**Quick Start**: Just deploy - guest mode works out of the box! ✨**
