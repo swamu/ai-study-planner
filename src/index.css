@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    @apply bg-background text-text-primary font-sans;
+    @apply antialiased;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer components {
+  /* Clean card styles */
+  .card {
+    @apply bg-surface rounded-lg border border-border;
+    @apply shadow-sm;
+    @apply transition-shadow duration-200;
+  }
+  
+  .card:hover {
+    @apply shadow-md;
+  }
+  
+  /* Button styles - minimal */
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium;
+    @apply transition-all duration-200;
+    @apply border border-border;
+  }
+  
+  .btn-primary {
+    @apply bg-accent-blue text-white border-accent-blue;
+    @apply hover:bg-opacity-90;
+  }
+  
+  .btn-secondary {
+    @apply bg-surface text-text-primary;
+    @apply hover:bg-gray-50;
+  }
+  
+  /* Badge styles - clean and minimal */
+  .badge {
+    @apply inline-flex items-center gap-1.5;
+    @apply px-2.5 py-1 rounded-md text-xs font-medium;
+    @apply border;
+  }
+  
+  /* Category badges */
+  .badge-genai {
+    @apply bg-blue-50 text-blue-700 border-blue-200;
+  }
+  
+  .badge-agentic {
+    @apply bg-purple-50 text-purple-700 border-purple-200;
+  }
+  
+  .badge-hld {
+    @apply bg-teal-50 text-teal-700 border-teal-200;
+  }
+  
+  .badge-dsa {
+    @apply bg-amber-50 text-amber-700 border-amber-200;
+  }
+  
+  .badge-revision {
+    @apply bg-indigo-50 text-indigo-700 border-indigo-200;
+  }
+  
+  .badge-project {
+    @apply bg-green-50 text-green-700 border-green-200;
+  }
+  
+  /* Difficulty badges */
+  .badge-easy {
+    @apply bg-green-50 text-green-700 border-green-200;
+  }
+  
+  .badge-moderate {
+    @apply bg-amber-50 text-amber-700 border-amber-200;
+  }
+  
+  .badge-hard {
+    @apply bg-red-50 text-red-700 border-red-200;
+  }
+  
+  .badge-flexible {
+    @apply bg-purple-50 text-purple-700 border-purple-200;
+  }
+  
+  /* Input styles - clean */
+  .input {
+    @apply border border-border rounded-lg px-3 py-2;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-opacity-50;
+    @apply transition-all duration-200;
+    @apply bg-surface text-text-primary;
+  }
+  
+  /* Progress bar - minimal */
+  .progress-bar-container {
+    @apply w-full bg-gray-100 rounded-full overflow-hidden;
+  }
+  
+  .progress-bar-fill {
+    @apply h-full bg-accent-blue rounded-full;
+    @apply transition-all duration-500 ease-out;
+  }
+  
+  /* Table styles - clean */
+  .table-header {
+    @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider;
+    @apply text-text-secondary bg-gray-50;
+    @apply border-b border-border;
+  }
+  
+  .table-cell {
+    @apply px-4 py-3 text-sm text-text-primary;
+    @apply border-b border-border-light;
+  }
+  
+  .table-row {
+    @apply transition-colors duration-150;
+    @apply hover:bg-gray-50;
+  }
+  
+  /* Scrollbar - subtle */
+  .custom-scrollbar::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-100 rounded-full;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full;
+    @apply hover:bg-gray-400;
+  }
+}
+
+@layer utilities {
+  /* Container utility */
+  .container-custom {
+    @apply max-w-container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Text truncate */
+  .truncate-1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .truncate-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
