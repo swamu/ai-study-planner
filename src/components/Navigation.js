@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 import SyncStatus from './SyncStatus';
 
 const Navigation = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/login');
+  };
 
   const isActive = (path) => location.pathname === path;
 
@@ -51,9 +59,19 @@ const Navigation = () => {
             ))}
           </div>
 
-          {/* Right Side - Sync Status */}
-          <div className="hidden md:block">
+          {/* Right Side - Sync Status & User */}
+          <div className="hidden md:flex items-center space-x-3">
             <SyncStatus />
+            <div className="flex items-center space-x-2 text-sm text-text-secondary">
+              <span>👤</span>
+              <span className="max-w-[150px] truncate">{user?.email}</span>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="btn btn-secondary text-sm px-3 py-1.5"
+            >
+              Logout
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -95,8 +113,17 @@ const Navigation = () => {
               </Link>
             ))}
             
-            <div className="pt-2 mt-2 border-t border-border">
+            <div className="pt-2 mt-2 border-t border-border space-y-2">
               <SyncStatus />
+              <div className="flex items-center justify-between px-4 py-2">
+                <span className="text-sm text-text-secondary truncate">{user?.email}</span>
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-secondary text-xs px-3 py-1"
+                >
+                  Logout
+                </button>
+              </div>
             </div>
           </div>
         </motion.div>

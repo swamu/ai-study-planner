@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { scheduleData } from '../data/fullScheduleData';
 import { useSupabaseSync } from '../hooks/useSupabaseSync';
 import { isSupabaseConfigured } from '../lib/supabase';
+import { useAuth } from './AuthContext';
 
 const TaskDatabaseContext = createContext();
 
@@ -49,15 +50,10 @@ const generateInitialTasks = () => {
 };
 
 export const TaskDatabaseProvider = ({ children }) => {
-  // Generate a unique user ID (in a real app, use actual authentication)
-  const [userId] = useState(() => {
-    let id = localStorage.getItem('user_id');
-    if (!id) {
-      id = `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-      localStorage.setItem('user_id', id);
-    }
-    return id;
-  });
+  const { user } = useAuth();
+  
+  // Use authenticated user ID or local ID for non-auth mode
+  const userId = user?.id || 'local-user';
 
   const [tasks, setTasks] = useState(() => {
     // First try localStorage (immediate load)
