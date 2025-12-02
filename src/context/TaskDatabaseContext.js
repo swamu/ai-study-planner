@@ -50,10 +50,10 @@ const generateInitialTasks = () => {
 };
 
 export const TaskDatabaseProvider = ({ children }) => {
-  const { user } = useAuth();
+  const { user, isGuest } = useAuth();
   
-  // Use authenticated user ID or local ID for non-auth mode
-  const userId = user?.id || 'local-user';
+  // Use authenticated user ID, or 'guest' for guest mode, or 'local-user' for local auth
+  const userId = user?.id || (isGuest ? 'guest' : 'local-user');
 
   const [tasks, setTasks] = useState(() => {
     // First try localStorage (immediate load)
@@ -71,8 +71,11 @@ export const TaskDatabaseProvider = ({ children }) => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const hasSupabase = isSupabaseConfigured();
 
+  // Only sync with Supabase if user is logged in (not guest mode)
+  const shouldSyncUserId = (user && !isGuest) ? userId : null;
+  
   // Supabase sync hook
-  const { saveTasks } = useSupabaseSync(userId, tasks, setTasks);
+  const { saveTasks } = useSupabaseSync(shouldSyncUserId, tasks, setTasks);
 
   // Monitor online/offline status
   useEffect(() => {

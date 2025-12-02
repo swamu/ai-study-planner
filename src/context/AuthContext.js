@@ -15,14 +15,24 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isGuest, setIsGuest] = useState(false);
   const hasSupabase = isSupabaseConfigured();
 
   useEffect(() => {
+    // Check if user chose guest mode
+    const guestMode = localStorage.getItem('guest_mode');
+    if (guestMode === 'true') {
+      setIsGuest(true);
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     if (!hasSupabase) {
-      // No Supabase configured - use local mode
+      // No Supabase configured - check for local user
       const localUser = localStorage.getItem('local_user_email');
       if (localUser) {
-        setUser({ email: localUser, id: 'local-user' });
+        setUser({ email: localUser, id: 'local-user', isLocal: true });
       }
       setLoading(false);
       return;
@@ -103,13 +113,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const continueAsGuest = () => {
+    localStorage.setItem('guest_mode', 'true');
+    setIsGuest(true);
+    setUser(null);
+  };
+
+  const exitGuestMode = () => {
+    localStorage.removeItem('guest_mode');
+    setIsGuest(false);
+  };
+
   const value = {
     user,
     loading,
     error,
+    isGuest,
     signUp,
     signIn,
     signOut,
+    continueAsGuest,
+    exitGuestMode,
     hasSupabase,
   };
 

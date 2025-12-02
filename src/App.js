@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { TaskDatabaseProvider } from './context/TaskDatabaseContext';
-import ProtectedRoute from './components/ProtectedRoute';
 import Navigation from './components/Navigation';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -19,12 +18,12 @@ function App() {
         <Router>
           <div className="min-h-screen bg-background">
             <Routes>
-              {/* Public route */}
+              {/* Login route */}
               <Route path="/login" element={<Login />} />
               
-              {/* Protected routes */}
+              {/* Main app routes - available to everyone (guest or logged in) */}
               <Route path="/*" element={
-                <ProtectedRoute>
+                <>
                   <Navigation />
                   <Routes>
                     <Route path="/" element={<Dashboard />} />
@@ -34,7 +33,7 @@ function App() {
                     <Route path="/database" element={<TaskDatabase />} />
                     <Route path="/final-prep" element={<FinalPrep />} />
                   </Routes>
-                </ProtectedRoute>
+                </>
               } />
             </Routes>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
@@ -11,8 +11,15 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   
-  const { signIn, signUp, hasSupabase } = useAuth();
+  const { signIn, signUp, hasSupabase, continueAsGuest, user, isGuest } = useAuth();
   const navigate = useNavigate();
+
+  // Redirect if already authenticated or in guest mode
+  useEffect(() => {
+    if (user || isGuest) {
+      navigate('/');
+    }
+  }, [user, isGuest, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,6 +57,11 @@ const Login = () => {
     }
   };
 
+  const handleGuestMode = () => {
+    continueAsGuest();
+    navigate('/');
+  };
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <motion.div
@@ -77,10 +89,41 @@ const Login = () => {
           </CardHeader>
 
           <CardContent>
+            {/* Guest Mode Option */}
+            <div className="mb-6">
+              <button
+                onClick={handleGuestMode}
+                className="w-full px-4 py-3 border-2 border-border rounded-lg hover:bg-gray-50 transition-colors group"
+              >
+                <div className="flex items-center justify-center space-x-2">
+                  <span className="text-2xl">🚀</span>
+                  <div className="text-left">
+                    <div className="text-sm font-medium text-text-primary">
+                      Continue as Guest
+                    </div>
+                    <div className="text-xs text-text-tertiary">
+                      Local storage only, no sync
+                    </div>
+                  </div>
+                </div>
+              </button>
+            </div>
+
+            <div className="relative mb-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-border"></div>
+              </div>
+              <div className="relative flex justify-center text-xs">
+                <span className="bg-white px-2 text-text-tertiary">
+                  Or sign in for cloud sync
+                </span>
+              </div>
+            </div>
+
             {!hasSupabase && (
               <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                 <p className="text-xs text-blue-700">
-                  💡 Running in local mode. Just enter any email to continue.
+                  💡 Supabase not configured. Local mode only.
                 </p>
               </div>
             )}

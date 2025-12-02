@@ -8,7 +8,7 @@ const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, signOut } = useAuth();
+  const { user, isGuest, signOut } = useAuth();
 
   const handleLogout = async () => {
     await signOut();
@@ -61,17 +61,29 @@ const Navigation = () => {
 
           {/* Right Side - Sync Status & User */}
           <div className="hidden md:flex items-center space-x-3">
-            <SyncStatus />
-            <div className="flex items-center space-x-2 text-sm text-text-secondary">
-              <span>👤</span>
-              <span className="max-w-[150px] truncate">{user?.email}</span>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="btn btn-secondary text-sm px-3 py-1.5"
-            >
-              Logout
-            </button>
+            {user && <SyncStatus />}
+            
+            {isGuest ? (
+              <Link
+                to="/login"
+                className="btn btn-primary text-sm px-4 py-1.5"
+              >
+                Sign In for Sync
+              </Link>
+            ) : user ? (
+              <>
+                <div className="flex items-center space-x-2 text-sm text-text-secondary">
+                  <span>👤</span>
+                  <span className="max-w-[150px] truncate">{user?.email}</span>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-secondary text-sm px-3 py-1.5"
+                >
+                  Logout
+                </button>
+              </>
+            ) : null}
           </div>
 
           {/* Mobile menu button */}
@@ -114,16 +126,28 @@ const Navigation = () => {
             ))}
             
             <div className="pt-2 mt-2 border-t border-border space-y-2">
-              <SyncStatus />
-              <div className="flex items-center justify-between px-4 py-2">
-                <span className="text-sm text-text-secondary truncate">{user?.email}</span>
-                <button
-                  onClick={handleLogout}
-                  className="btn btn-secondary text-xs px-3 py-1"
-                >
-                  Logout
-                </button>
-              </div>
+              {user && <SyncStatus />}
+              
+              {isGuest ? (
+                <div className="px-4 py-2">
+                  <Link
+                    to="/login"
+                    className="btn btn-primary text-sm w-full"
+                  >
+                    Sign In for Cloud Sync
+                  </Link>
+                </div>
+              ) : user ? (
+                <div className="flex items-center justify-between px-4 py-2">
+                  <span className="text-sm text-text-secondary truncate">{user?.email}</span>
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-secondary text-xs px-3 py-1"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
         </motion.div>
